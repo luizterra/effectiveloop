@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-effectiveloopapp-dev-64c91-authRole",
+      "UnauthRoleArn": "arn:aws:iam::520284241573:role/amplify-effectiveloopapp-dev-64c91-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::520284241573:role/amplify-effectiveloopapp-dev-64c91-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-effectiveloopapp-dev-64c91-deployment",
+      "UnauthRoleName": "amplify-effectiveloopapp-dev-64c91-unauthRole",
+      "StackName": "amplify-effectiveloopapp-dev-64c91",
+      "StackId": "arn:aws:cloudformation:us-east-1:520284241573:stack/amplify-effectiveloopapp-dev-64c91/e268ddf0-1ba2-11ef-8e7b-0affeddeb3e1",
+      "AmplifyAppId": "d1n2o54wbh53p4"
+    },
+    "categories": {
+      "hosting": {
+        "S3AndCloudFront": {}
+      }
+    }
+  }
+}

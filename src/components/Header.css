@@ -1,0 +1,30 @@
+.header {
+    background-color: #1f2937; /* Dark background color */
+    padding: 10px 20px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 60px; /* Adjust height as needed */
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #ffffff; /* White text color */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #ff4081; /* Hover color */
+}
