@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Navigate } from 'react-router-dom';
+//import { Route, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {

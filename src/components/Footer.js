@@ -9,11 +9,11 @@ const Footer = () => {
                 <div className="footer-left">
                     <img src={logo} alt="Digital Logo" className="footer-logo" />
                     <p className="footer-email"><a href="mailto:luizterra@hotmail.com" className="footer-link">luizterra@hotmail.com</a></p>
-                    <p className="footer-location">Salt Lake City, UT</p>
+                    <p className="footer-location">Florida</p>
                 </div>
                 <div className="footer-right">
-                    <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer noopener" className="footer-link">LinkedIn</a>
-                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer noopener" className="footer-link">Instagram</a>
+                    <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener" className="footer-link">LinkedIn</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noreferrer noopener" className="footer-link">Instagram</a>
                 </div>
             </div>
         </footer>

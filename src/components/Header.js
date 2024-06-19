@@ -9,11 +9,7 @@ const Header = () => {
             <div className="header-container">
                 <img src={logo} alt="Logo" className="logo" />
                 <nav className="nav">
-                    <a href="/" className="nav-link">Home</a>
-                    <a href="/services" className="nav-link">Services</a>
-                    <a href="/about" className="nav-link">About Us</a>
-                    <a href="/contact" className="nav-link">Contact Us</a>
-                    <a href="/blog" className="nav-link">Blog</a>
+                    <a href="https://www.effectiveloop.com/" className="nav-link">Home</a>
                 </nav>
             </div>
         </header>

@@ -23,7 +23,7 @@ class Index extends React.Component {
 
         return (
             <div>
-                <h1>Welcome to the Index Page</h1>
+                <h1>Welcome to the Effective Loop App</h1>
             </div>
         );
     }
