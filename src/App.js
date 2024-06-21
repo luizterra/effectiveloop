@@ -1,48 +1,4 @@
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import CustomAuthenticator from './CustomAuthenticator';
-// import Index from './pages/Index';
-// import Overview from './pages/Overview';
-// import ProtectedRoute from './ProtectedRoute';
-
-// function App() {
-//     return (
-//         <Router>
-//             <CustomAuthenticator>
-//                 <Routes>
-//                     <Route path="/" element={<Index />} />
-//                     <Route path="/overview" element={<ProtectedRoute component={Overview} />} />
-//                 </Routes>
-//             </CustomAuthenticator>
-//         </Router>
-//     );
-// }
-
-// export default App;
-
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import CustomAuthenticator from './CustomAuthenticator';
-// import Index from './pages/Index';
-// import Overview from './pages/Overview';
-// import SignedOut from './pages/SignedOut';
-// import ProtectedRoute from './ProtectedRoute';
-
-// function App() {
-//     return (
-//         <Router>
-//             <CustomAuthenticator>
-//                 <Routes>
-//                     <Route path="/" element={<Index />} />
-//                     <Route path="/overview" element={<ProtectedRoute component={Overview} />} />
-//                     <Route path="/signed-out" element={<SignedOut />} />
-//                 </Routes>
-//             </CustomAuthenticator>
-//         </Router>
-//     );
-// }
-
-// export default App;
+// src/App.js
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -53,6 +9,7 @@ import Index from './pages/Index';
 import Overview from './pages/Overview';
 import SignedOut from './pages/SignedOut';
 import ProtectedRoute from './ProtectedRoute';
+import Sales from './pages/Sales'; // Import the Sales component
 
 function App() {
     return (
@@ -65,6 +22,7 @@ function App() {
                             <Route path="/" element={<Index />} />
                             <Route path="/overview" element={<ProtectedRoute component={Overview} />} />
                             <Route path="/signed-out" element={<SignedOut />} />
+                            <Route path="/sales" element={<Sales />} /> {/* Add the Sales route */}
                         </Routes>
                     </CustomAuthenticator>
                 </main>

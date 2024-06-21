@@ -1,0 +1,292 @@
+const reportWebVitals = onPerfEntry => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+import React, { useState, useEffect } from 'react';
+import { Auth } from 'aws-amplify';
+import { useLocation } from 'react-router-dom';
+
+const CustomAuthenticator = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        checkUser();
+    }, []);
+
+    const checkUser = async () => {
+        try {
+            await Auth.currentAuthenticatedUser();
+            setIsAuthenticated(true);
+        } catch {
+            setIsAuthenticated(false);
+        }
+    };
+
+    const handleGoogleSignIn = () => {
+        Auth.federatedSignIn({ provider: 'Google' });
+    };
+
+    const handleSignOut = async () => {
+        console.log('Signing out...');
+        await Auth.signOut();
+        setIsAuthenticated(false);
+        setTimeout(() => {
+            console.log('Redirecting to /signed-out');
+            window.location.href = '/signed-out';
+        }, 1000); // Add a delay to ensure sign-out completes
+    };
+
+    if (location.pathname === '/signed-out') {
+        return children; // Do not show buttons on the signed-out page
+    }
+
+    return (
+        <div>
+            {!isAuthenticated && location.pathname !== '/signed-out' && (
+                <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            )}
+            {isAuthenticated && (
+                <button onClick={handleSignOut}>Sign out</button>
+            )}
+            {children}
+        </div>
+    );
+};
+
+export default CustomAuthenticator;
+// src/aws-exports.js
+const awsmobile = {
+    "aws_project_region": "us-east-1",
+    "aws_content_delivery_bucket": "effectiveloopapp-20240526171103-hostingbucket-dev",
+    "aws_content_delivery_bucket_region": "us-east-1",
+    "aws_content_delivery_url": "https://d2vdjpemqewaag.cloudfront.net"
+};
+
+const awsconfig = {
+    Auth: {
+        region: 'us-east-1', // Update with your actual region
+        userPoolId: 'us-east-1_jIwriFhzI',
+        userPoolWebClientId: '36m9cugohkav94hrn2hq8c3lqv',
+        oauth: {
+            domain: 'effectiveloopuserpool.auth.us-east-1.amazoncognito.com',
+            scope: ['email', 'openid'],
+            redirectSignIn: 'http://localhost:3000/',
+            redirectSignOut: 'http://localhost:3000/signed-out',
+            responseType: 'code' // or 'token'
+        }
+    }
+};
+
+// Merge the two configurations into one
+const mergedConfig = {
+    ...awsmobile,
+    ...awsconfig,
+};
+
+export default mergedConfig;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+import App from './App';
+
+Amplify.configure(awsconfig);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+import React from 'react';
+import logo from '../assets/867085d0-a492-4d81-b5c7-a1195d930390.webp';
+
+import './Header.css'; // Import the CSS file for styling
+
+const Header = () => {
+    return (
+        <header className="header">
+            <div className="header-container">
+                <img src={logo} alt="Logo" className="logo" />
+                <nav className="nav">
+                    <a href="https://www.effectiveloop.com/" className="nav-link">Home</a>
+                </nav>
+            </div>
+        </header>
+    );
+};
+
+export default Header;
+import React from 'react';
+import logo from '../assets/867085d0-a492-4d81-b5c7-a1195d930390.webp';
+import './Footer.css'; // Import the CSS file for styling
+
+const Footer = () => {
+    return (
+        <footer className="footer">
+            <div className="footer-container">
+                <div className="footer-left">
+                    <img src={logo} alt="Digital Logo" className="footer-logo" />
+                    <p className="footer-email"><a href="mailto:luizterra@hotmail.com" className="footer-link">luizterra@hotmail.com</a></p>
+                    <p className="footer-location">Florida</p>
+                </div>
+                <div className="footer-right">
+                    <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener" className="footer-link">LinkedIn</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noreferrer noopener" className="footer-link">Instagram</a>
+                </div>
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Auth } from 'aws-amplify';
+
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+    const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
+    const checkAuth = async () => {
+        try {
+            await Auth.currentAuthenticatedUser();
+            setIsAuthenticated(true);
+        } catch {
+            setIsAuthenticated(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) return null; // Or a loading spinner
+
+    return isAuthenticated ? <Component {...rest} /> : <Navigate to="/" />;
+};
+
+export default ProtectedRoute;
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+import React from 'react';
+import { Auth } from 'aws-amplify';
+
+const SignedOut = () => {
+    const handleGoogleSignIn = () => {
+        Auth.federatedSignIn({ provider: 'Google' });
+    };
+
+    return (
+        <div>
+            <h1>You have been signed out</h1>
+            <p>To sign in with a different Google account, please log out of your current Google account first, then click the button below.</p>
+            <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+        </div>
+    );
+};
+
+export default SignedOut;
+import React from 'react';
+import { Auth } from 'aws-amplify';
+import { Navigate } from 'react-router-dom';
+
+class Index extends React.Component {
+    state = {
+        redirectToOverview: false,
+    };
+
+    async componentDidMount() {
+        try {
+            await Auth.currentAuthenticatedUser();
+            this.setState({ redirectToOverview: true });
+        } catch {
+            // Not authenticated
+        }
+    }
+
+    render() {
+        if (this.state.redirectToOverview) {
+            return <Navigate to="/overview" />;
+        }
+
+        return (
+            <div>
+                <h1>Welcome to the Effective Loop App</h1>
+            </div>
+        );
+    }
+}
+
+export default Index;
+import React from 'react';
+
+const Overview = () => {
+    return (
+        <div>
+            <h1>Overview Page</h1>
+        </div>
+    );
+};
+
+export default Overview;
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CustomAuthenticator from './CustomAuthenticator';
+import Index from './pages/Index';
+import Overview from './pages/Overview';
+import SignedOut from './pages/SignedOut';
+import ProtectedRoute from './ProtectedRoute';
+
+function App() {
+    return (
+        <Router>
+            <div style={appStyle}>
+                <Header />
+                <main style={mainStyle}>
+                    <CustomAuthenticator>
+                        <Routes>
+                            <Route path="/" element={<Index />} />
+                            <Route path="/overview" element={<ProtectedRoute component={Overview} />} />
+                            <Route path="/signed-out" element={<SignedOut />} />
+                        </Routes>
+                    </CustomAuthenticator>
+                </main>
+                <Footer />
+            </div>
+        </Router>
+    );
+}
+
+const appStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+};
+
+const mainStyle = {
+    flex: '1',
+    padding: '20px',
+};
+
+export default App;
